@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import database from './config/dbConnection.js';
 import userRoutes from './routes/user.js';
+import moviesRoutes from './routes/movies.js';
 
 const app = express();
 
@@ -25,7 +26,8 @@ database.mongoose
     console.log(error);
   });
 
-app.use(userRoutes)
+app.use('/api/v1', userRoutes);
+app.use('/api/v1', moviesRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
