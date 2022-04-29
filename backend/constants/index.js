@@ -17,6 +17,7 @@ export const userConstants = {
 export const movieConstants = {
   MOVIE_ADD_FAILED: 'Movie did not added',
   MOVIE_ADD_SUCCESS: 'Movie addition success',
+  MOVIE_LIST_FETCH_SUCCESS: 'Movies fetched successfully',
 };
 
 export const cartConstants = {

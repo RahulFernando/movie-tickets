@@ -4,7 +4,8 @@ import ResponseHelper from '../helpers/responseHelper.js';
 import { codes, movieConstants } from '../constants/index.js';
 
 const { CREATED, NOT_FOUND, SUCCESS, FAILED } = codes;
-const { MOVIE_ADD_SUCCESS, MOVIE_ADD_FAILED } = movieConstants;
+const { MOVIE_ADD_SUCCESS, MOVIE_ADD_FAILED, MOVIE_LIST_FETCH_SUCCESS } =
+  movieConstants;
 
 export const postMovie = async (req, res) => {
   const { name, show_time, cast, banner, theater } = req.body;
@@ -36,6 +37,23 @@ export const postMovie = async (req, res) => {
       CREATED,
       MOVIE_ADD_SUCCESS,
       movie._doc
+    );
+  } catch (error) {
+    return ResponseHelper.error(res, error);
+  }
+};
+
+export const getMovies = async (req, res) => {
+  try {
+    const movies = await MovieModal.find().populate('theater');
+
+    return ResponseHelper.response(
+      res,
+      true,
+      200,
+      SUCCESS,
+      MOVIE_LIST_FETCH_SUCCESS,
+      { movies }
     );
   } catch (error) {
     return ResponseHelper.error(res, error);
