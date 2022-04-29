@@ -7,10 +7,10 @@ const { CREATED, NOT_FOUND, SUCCESS, FAILED } = codes;
 const { MOVIE_ADD_SUCCESS, MOVIE_ADD_FAILED } = movieConstants;
 
 export const postMovie = async (req, res) => {
-  const { name, show_time, cast, banner, theater_id } = req.body;
+  const { name, show_time, cast, banner, theater } = req.body;
 
   try {
-    const obj = new MovieModal({ name, show_time, cast, banner });
+    const obj = new MovieModal({ name, show_time, cast, banner, theater });
 
     const movie = await obj.save();
 
@@ -25,7 +25,7 @@ export const postMovie = async (req, res) => {
       );
     }
 
-    await TheaterModal.findByIdAndUpdate(theater_id, {
+    await TheaterModal.findByIdAndUpdate(theater, {
       $push: { movies: movie._doc._id },
     });
 

@@ -5,6 +5,7 @@ const schema = mongoose.Schema({
   show_time: { type: String, required: true },
   cast: { type: String, required: true },
   banner: { type: String },
+  theater: { type: mongoose.Types.ObjectId, ref: 'movies' },
 });
 
 const Movie = mongoose.model('movies', schema);

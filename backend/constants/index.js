@@ -2,7 +2,8 @@ export const codes = {
   SUCCESS: 'SUCCESS',
   CREATED: 'CREATED',
   NOT_FOUND: 'NOT_FOUND',
-  FAILED: 'FAILED'
+  FAILED: 'FAILED',
+  UPDATED: 'UPDATED'
 };
 
 export const userConstants = {
@@ -16,4 +17,9 @@ export const userConstants = {
 export const movieConstants = {
   MOVIE_ADD_FAILED: 'Movie did not added',
   MOVIE_ADD_SUCCESS: 'Movie addition success',
+};
+
+export const cartConstants = {
+  ADD_CART_SUCCESS: 'Add to cart success',
+  ADD_CART_FAILED: 'Add to cart failed',
 };
