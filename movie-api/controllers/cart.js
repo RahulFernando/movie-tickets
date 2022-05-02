@@ -5,6 +5,11 @@ import { codes, cartConstants } from '../constants/index.js';
 const { CREATED, UPDATED, FAILED } = codes;
 const { ADD_CART_SUCCESS, ADD_CART_FAILED } = cartConstants;
 
+/**
+ * Handle add to cart request
+ * @param {*} req 
+ * @param {*} res 
+ */
 export const addToCart = async (req, res) => {
   const { movies, total_price, user } = req.body;
   try {

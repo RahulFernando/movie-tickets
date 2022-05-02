@@ -1,4 +1,13 @@
 const ResponseHelper = {
+  /**
+   * Handle http response
+   * @param {*} res
+   * @param {Boolean} success
+   * @param {String} status
+   * @param {Number} code
+   * @param {String} message
+   * @param {Object} data
+   */
   response: (res, success = true, status, code, message = '', data) => {
     res.status(status).json({
       success,
@@ -9,6 +18,11 @@ const ResponseHelper = {
     });
   },
 
+  /**
+   * Handle http error
+   * @param {*} res
+   * @param {Object} error
+   */
   error: (res, error) => {
     const status = error.status || 500;
     const code = error.code || 'ERROR';

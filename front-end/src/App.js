@@ -7,9 +7,7 @@ import theme from './theme';
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Layout>
-
-      </Layout>
+      <Layout />
     </ThemeProvider>
   );
 }

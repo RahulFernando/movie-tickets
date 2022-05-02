@@ -5,6 +5,11 @@ import { codes, theaterConstant } from '../constants/index.js';
 const { SUCCESS } = codes;
 const { FETCH_THEATERS_SUCCESS } = theaterConstant;
 
+/**
+ * Handle fetching all theaters
+ * @param {*} req 
+ * @param {*} res 
+ */
 export const getTheaters = async (req, res) => {
   try {
     const theaters = await TheaterModal.find().populate('movies');
