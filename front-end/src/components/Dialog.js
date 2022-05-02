@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import {
   Dialog as MaterialDialog,
@@ -6,6 +7,9 @@ import {
   IconButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+
+// reduces
+import { setModal } from '../slices/authSlice';
 
 const BootstrapDialog = styled(MaterialDialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -41,11 +45,17 @@ const BootstrapDialogTitle = (props) => {
 };
 
 const Dialog = ({ title, children }) => {
+  const dispatch = useDispatch();
+
+  const open = useSelector((state) => state.authentication.openModal);
+
+  const dialogCloseHandler = () => {
+    dispatch(setModal(!open));
+  }
+
   return (
-    <BootstrapDialog>
-      <BootstrapDialogTitle>
-        {title}
-      </BootstrapDialogTitle>
+    <BootstrapDialog open={open} onClose={dialogCloseHandler}>
+      <BootstrapDialogTitle onClose={dialogCloseHandler}>{title}</BootstrapDialogTitle>
       <DialogContent dividers>{children}</DialogContent>
     </BootstrapDialog>
   );
