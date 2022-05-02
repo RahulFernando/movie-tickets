@@ -1,5 +1,7 @@
 # node modules
-/backend/node_modules
+/user-api/node_modules
+/movie-api/node_modules
 
 # env files
-/backend/.env
+/movie-api/.env
+/user-api/.env
