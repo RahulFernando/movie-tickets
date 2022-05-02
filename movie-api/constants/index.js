@@ -24,3 +24,8 @@ export const cartConstants = {
   ADD_CART_SUCCESS: 'Add to cart success',
   ADD_CART_FAILED: 'Add to cart failed',
 };
+
+export const theaterConstant = {
+  FETCH_THEATERS_SUCCESS: 'Theaters fetched successfully',
+  FETCH_THEATERS_FAILED: 'Theaters fetched failed',
+}

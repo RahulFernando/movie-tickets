@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import database from './config/dbConnection.js';
 import moviesRoutes from './routes/movies.js';
 import cartRoutes from './routes/cart.js';
+import theaterRoutes from './routes/theater.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ database.mongoose
 
 app.use('/api/v1', moviesRoutes);
 app.use('/api/v1', cartRoutes);
+app.use('/api/v1', theaterRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
