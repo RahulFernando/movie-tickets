@@ -6,6 +6,7 @@ import {
   Avatar,
   Tooltip,
   AppBar,
+  Container,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
@@ -34,25 +35,27 @@ const Header = () => {
   const classes = useStyle();
 
   return (
-    <AppBar>
-      <Toolbar disableGutters>
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          className={classes.logo}
-        >
-          Movie Tickets
-        </Typography>
-        <Box className={classes.leftMenu} />
-        <Box className={classes.rightMenu}>
-          <Tooltip title="Avatar">
-            <IconButton>
-              <Avatar alt="user" src={ProfileImg} />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      </Toolbar>
+    <AppBar position="fixed">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            className={classes.logo}
+          >
+            Movie Tickets
+          </Typography>
+          <Box className={classes.leftMenu} />
+          <Box className={classes.rightMenu}>
+            <Tooltip title="Avatar">
+              <IconButton>
+                <Avatar alt="user" src={ProfileImg} />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Toolbar>
+      </Container>
     </AppBar>
   );
 };

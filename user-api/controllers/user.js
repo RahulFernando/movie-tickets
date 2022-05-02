@@ -11,6 +11,11 @@ const {
   INVALID_PASSWORD,
 } = userConstants;
 
+/**
+ * Handle user registration
+ * @param {*} req
+ * @param {*} res
+ */
 export const register = async (req, res) => {
   const { user_name, email, mobile, role, password } = req.body;
   try {
@@ -41,6 +46,11 @@ export const register = async (req, res) => {
   }
 };
 
+/**
+ * Handle user login
+ * @param {*} req
+ * @param {*} res
+ */
 export const login = async (req, res) => {
   const { user_name, password } = req.body;
 

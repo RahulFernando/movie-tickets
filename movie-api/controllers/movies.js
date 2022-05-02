@@ -3,10 +3,15 @@ import TheaterModal from '../models/theater.js';
 import ResponseHelper from '../helpers/responseHelper.js';
 import { codes, movieConstants } from '../constants/index.js';
 
-const { CREATED, NOT_FOUND, SUCCESS, FAILED } = codes;
+const { CREATED, NOT_FOUND, SUCCESS } = codes;
 const { MOVIE_ADD_SUCCESS, MOVIE_ADD_FAILED, MOVIE_LIST_FETCH_SUCCESS } =
   movieConstants;
 
+/**
+ * Handle new movie request
+ * @param {*} req
+ * @param {*} res
+ */
 export const postMovie = async (req, res) => {
   const { name, show_time, cast, banner, theater } = req.body;
 
