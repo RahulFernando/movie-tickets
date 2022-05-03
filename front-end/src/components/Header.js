@@ -3,8 +3,6 @@ import {
   Box,
   Toolbar,
   Typography,
-  Avatar,
-  Tooltip,
   AppBar,
   Container,
 } from '@mui/material';
@@ -17,9 +15,6 @@ import Dialog from './Dialog';
 
 // reducers
 import { setModal } from '../slices/authSlice';
-
-// assets
-import ProfileImg from '../assets/img/avatar.jpg';
 
 // context
 import AuthContext from '../store/auth-context';
@@ -46,11 +41,16 @@ const useStyle = makeStyles({
 const Header = () => {
   const dispatch = useDispatch();
   const classes = useStyle();
-  const { token } = useContext(AuthContext);
+  const { token, onLogout } = useContext(AuthContext);
 
   const loginClickHandler = () => {
     dispatch(setModal(true));
-  }
+  };
+
+  const logoutClickHandler = () => {
+    onLogout();
+    window.location.reload();
+  };
 
   return (
     <>
@@ -77,11 +77,11 @@ const Header = () => {
             )}
             {token && (
               <Box className={classes.rightMenu}>
-                <Tooltip title="Avatar">
-                  <IconButton>
-                    <Avatar alt="user" src={ProfileImg} />
-                  </IconButton>
-                </Tooltip>
+                <IconButton onClick={logoutClickHandler}>
+                  <Typography variant="subtitle1" color="white">
+                    Logout
+                  </Typography>
+                </IconButton>
               </Box>
             )}
           </Toolbar>

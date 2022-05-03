@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import UserModal from '../models/user.js';
 import ResponseHelper from '../helpers/responseHelper.js';
 import { codes, userConstants } from '../constants/index.js';
@@ -81,10 +82,20 @@ export const login = async (req, res) => {
       );
     }
 
+    // generate jwt
+    const token = await jwt.sign(
+      { id: user._doc._id },
+      process.env.SECRETE_KEY,
+      { expiresIn: '1h' }
+    );
+
     const obj = {
-      user_name: user._doc.user_name,
-      email: user._doc.email,
-      role: user._doc.role,
+      user: {
+        user_name: user._doc.user_name,
+        email: user._doc.email,
+        role: user._doc.role,
+      },
+      token,
     };
 
     return ResponseHelper.response(res, true, 200, SUCCESS, LOGIN_SUCCESS, obj);
