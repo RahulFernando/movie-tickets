@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormControl, Grid, InputLabel, MenuItem, Select } from '@mui/material';
+import { Grid } from '@mui/material';
 import SearchBar from 'material-ui-search-bar';
 
 // components
@@ -34,7 +34,7 @@ const Home = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={6}/>
+      <Grid item xs={6} />
       {/* <Grid item xs={6} md={4}>
         <FormControl fullWidth>
           <InputLabel>By Theater</InputLabel>
@@ -57,10 +57,12 @@ const Home = () => {
           movies.map((movie) => (
             <Movie
               key={movie._id}
+              id={movie._id}
               img={movie.banner}
               title={movie.name}
               theater={movie.theater.name}
               show_time={movie.show_time}
+              price={movie.price}
             />
           ))}
       </Grid>

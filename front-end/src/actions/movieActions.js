@@ -1,4 +1,11 @@
-import { fetchMoviesStart, fetchMoviesSuccess, fetchMoviesError } from '../slices/movieSlice';
+import {
+  fetchMoviesStart,
+  fetchMoviesSuccess,
+  fetchMoviesError,
+  addToCartStart,
+  addToCartSuccess,
+  addToCartError,
+} from '../slices/movieSlice';
 
 import service from '../services/movieService';
 
@@ -16,6 +23,24 @@ export const fetchMovies = (data) => {
       }
     } catch (error) {
       dispatch(fetchMoviesError(error.message));
+    }
+  };
+};
+
+export const addToCart = (data) => {
+  return async (dispatch) => {
+    dispatch(addToCartStart());
+
+    try {
+      const response = await service.putCart(data);
+
+      if (response.status === 200) {
+        dispatch(addToCartSuccess(response.data.body));
+      } else {
+        dispatch(addToCartError(response.data.message));
+      }
+    } catch (error) {
+      dispatch(addToCartError(error.message));
     }
   };
 };

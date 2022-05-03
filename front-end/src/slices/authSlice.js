@@ -7,6 +7,7 @@ const initialState = {
     error: null,
   },
   openModal: false,
+  openCart: false,
 };
 
 const authSlice = createSlice({
@@ -15,6 +16,9 @@ const authSlice = createSlice({
   reducers: {
     setModal(state, action) {
       state.openModal = action.payload;
+    },
+    setCart(state, action) {
+      state.openCart = action.payload;
     },
     loginStart(state) {
       state.loginData.loading = true;
@@ -34,6 +38,6 @@ const authSlice = createSlice({
 
 const { actions, reducer } = authSlice;
 
-export const { setModal, loginStart, loginSuccess, loginError } = actions;
+export const { setModal, setCart, loginStart, loginSuccess, loginError } = actions;
 
 export default reducer;

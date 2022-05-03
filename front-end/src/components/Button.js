@@ -6,7 +6,7 @@ const Button = ({ type = 'submit', label, onClick }) => {
     <MaterialButton
       type={type}
       variant="contained"
-      sx={{ color: 'white' }}
+      sx={{ color: 'white', textTransform: 'none' }}
       fullWidth
       onClick={onClick}
     >

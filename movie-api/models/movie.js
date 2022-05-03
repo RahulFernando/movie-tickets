@@ -6,6 +6,7 @@ const schema = mongoose.Schema({
   cast: { type: String, required: true },
   banner: { type: String },
   theater: { type: mongoose.Types.ObjectId, ref: 'theaters' },
+  price: { type: Number },
 });
 
 const Movie = mongoose.model('movies', schema);
