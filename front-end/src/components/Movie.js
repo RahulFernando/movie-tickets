@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Movie = () => {
+const Movie = ({ img, title, theater, show_time }) => {
   const classes = useStyles();
 
   return (
@@ -32,12 +32,13 @@ const Movie = () => {
       <CardMedia
         component="img"
         height="194"
-        image="https://pbs.twimg.com/media/FRYKrTmXsAASiRF?format=jpg&name=small"
+        image={img}
         alt="img"
       />
       <CardContent>
-        <Typography variant="subtitle1">Black Panther</Typography>
-        <Typography variant="subtitle2">Colombo City Center</Typography>
+        <Typography variant="subtitle1">{title}</Typography>
+        <Typography variant="subtitle2">{theater}</Typography>
+        <Typography variant="subtitle2">{show_time}</Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
