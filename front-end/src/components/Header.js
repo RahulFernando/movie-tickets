@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import {
   IconButton,
   Box,
@@ -5,20 +6,22 @@ import {
   Typography,
   AppBar,
   Container,
+  Badge,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import { useContext } from 'react';
+import { ShoppingCart } from '@material-ui/icons';
 
 // components
 import LoginForm from './LoginForm';
+import Cart from './Cart';
 import Dialog from './Dialog';
 
 // reducers
-import { setModal } from '../slices/authSlice';
+import { setModal, setCart } from '../slices/authSlice';
 
 // context
 import AuthContext from '../store/auth-context';
-import { useDispatch } from 'react-redux';
 
 const useStyle = makeStyles({
   logo: {
@@ -36,6 +39,15 @@ const useStyle = makeStyles({
   rightMenu: {
     flexGrow: 0,
   },
+  cartIcon: {
+    color: 'white',
+  },
+  badge: {
+    '& .MuiBadge-badge': {
+      color: 'white',
+      backgroundColor: 'black',
+    },
+  },
 });
 
 const Header = () => {
@@ -43,8 +55,27 @@ const Header = () => {
   const classes = useStyle();
   const { token, onLogout } = useContext(AuthContext);
 
+  const openCart = useSelector((state) => state.authentication.openCart);
+  const openLogin = useSelector((state) => state.authentication.openModal);
+  const movies = useSelector((state) => state.movie.cartData.movies);
+  const cartData = useSelector((state) => state.movie.cartData);
+
   const loginClickHandler = () => {
     dispatch(setModal(true));
+  };
+
+  const dialogCloseHandler = () => {
+    dispatch(setModal(false));
+  };
+
+  const cartOpenHandler = () => {
+    if (cartData.movies.length > 0) {
+      dispatch(setCart(true));
+    }
+  };
+
+  const cartCloseHandler = () => {
+    dispatch(setCart(false));
   };
 
   const logoutClickHandler = () => {
@@ -66,6 +97,15 @@ const Header = () => {
               Movie Tickets
             </Typography>
             <Box className={classes.leftMenu} />
+            {token && (
+              <Box className={classes.rightMenu}>
+                <IconButton onClick={cartOpenHandler}>
+                  <Badge badgeContent={movies.length} className={classes.badge}>
+                    <ShoppingCart className={classes.cartIcon} />
+                  </Badge>
+                </IconButton>
+              </Box>
+            )}
             {!token && (
               <Box className={classes.rightMenu}>
                 <IconButton onClick={loginClickHandler}>
@@ -87,8 +127,11 @@ const Header = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Dialog title="Login">
+      <Dialog title="Login" open={openLogin} onCose={dialogCloseHandler}>
         <LoginForm />
+      </Dialog>
+      <Dialog title="You Cart" open={openCart} onCose={cartCloseHandler}>
+        <Cart />
       </Dialog>
     </>
   );

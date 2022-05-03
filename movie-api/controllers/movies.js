@@ -49,8 +49,26 @@ export const postMovie = async (req, res) => {
 };
 
 export const getMovies = async (req, res) => {
+  const { theater, search } = req.query;
   try {
-    const movies = await MovieModal.find().populate('theater');
+    let pipeline = [
+      {
+        $lookup: {
+          from: 'theaters',
+          localField: 'theater',
+          foreignField: '_id',
+          as: 'theater',
+        },
+      },
+    ];
+
+    if (search) {
+      pipeline.push({
+        $match: { name: { $regex: `${search}`, $options: 'i' } },
+      });
+    }
+
+    const movies = await MovieModal.aggregate(pipeline);
 
     return ResponseHelper.response(
       res,

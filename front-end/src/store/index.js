@@ -2,8 +2,9 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 // reducers
 import authentication from '../slices/authSlice';
+import movie from '../slices/movieSlice';
 
-const rootReducer = combineReducers({ authentication });
+const rootReducer = combineReducers({ authentication, movie });
 
 export default function configureAppStore() {
   // const reduxSagaMonitorOptions = {};
