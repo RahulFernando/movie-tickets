@@ -15,7 +15,7 @@ const TextField = ({ label, name, value, error, helperText, onChange }) => {
         error={error}
         onChange={onChange}
       />
-      <FormHelperText>{helperText}</FormHelperText>
+      <FormHelperText sx={{ color: 'red' }}>{helperText}</FormHelperText>
     </FormControl>
   );
 };
