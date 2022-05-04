@@ -14,9 +14,11 @@ import { userLogin } from '../actions/authActions';
 
 // reducers
 import { setModal } from '../slices/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { onLogin } = useContext(AuthContext);
 
   const loginSuccess = useSelector(
@@ -71,9 +73,14 @@ const LoginForm = () => {
     if (loginSuccess) {
       dispatch(setModal(false));
       onLogin(loginSuccess);
+      
+      if (loginSuccess.user.role === 'PRODUCTION') {
+        navigate('/admin');
+      }
+
       window.location.reload();
     }
-  }, [dispatch, loginSuccess, onLogin]);
+  }, [dispatch, loginSuccess, navigate, onLogin]);
 
   return (
     <form onSubmit={submitHandler}>

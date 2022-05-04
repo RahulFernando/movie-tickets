@@ -20,7 +20,7 @@ const MovieProvider = (props) => {
 
   useEffect(() => {
     if (localStorageUser) {
-      setUser(localStorageUser);
+      setUser(JSON.parse(localStorageUser));
     }
     if (localStorageToken) {
       setToken(localStorageToken);

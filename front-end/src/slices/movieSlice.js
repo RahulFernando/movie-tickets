@@ -16,6 +16,7 @@ const initialState = {
     data: null,
     error: null,
   },
+  openModal: false,
 };
 
 const authSlice = createSlice({
@@ -72,6 +73,9 @@ const authSlice = createSlice({
     cartDataReset(state) {
       state.cartData = initialState.cartData;
     },
+    setModal(state, action) {
+      state.openModal = action.payload;
+    },
   },
 });
 
@@ -86,6 +90,7 @@ export const {
   addToCartSuccess,
   addToCartError,
   cartDataReset,
+  setModal,
 } = actions;
 
 export default reducer;
