@@ -53,7 +53,7 @@ const useStyle = makeStyles({
 const Header = () => {
   const dispatch = useDispatch();
   const classes = useStyle();
-  const { token, onLogout } = useContext(AuthContext);
+  const { token, user, onLogout } = useContext(AuthContext);
 
   const openCart = useSelector((state) => state.authentication.openCart);
   const openLogin = useSelector((state) => state.authentication.openModal);
@@ -97,7 +97,7 @@ const Header = () => {
               Movie Tickets
             </Typography>
             <Box className={classes.leftMenu} />
-            {token && (
+            {token && user.role !== 'PRODUCTION' && (
               <Box className={classes.rightMenu}>
                 <IconButton onClick={cartOpenHandler}>
                   <Badge badgeContent={movies.length} className={classes.badge}>

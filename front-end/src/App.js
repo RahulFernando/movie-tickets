@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@mui/system';
 import Layout from './Layout';
+import AuthProvider from './store/auth-provider';
 
 // theme
 import theme from './theme';
@@ -7,7 +8,9 @@ import theme from './theme';
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Layout />
+      <AuthProvider>
+        <Layout />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

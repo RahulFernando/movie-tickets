@@ -1,12 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-import AuthProvider from './store/auth-provider';
 
 // components
 import Header from './components/Header';
 
 // pages
 import Home from './pages/home/Home';
+import Dashboard from './pages/admin/Dashboard';
+
+import AdminRoute from './router/AdminRoute';
 
 const useStyles = makeStyles({
   pageContainer: {
@@ -19,14 +21,22 @@ const Layout = (props) => {
   const classes = useStyles();
 
   return (
-    <AuthProvider>
+    <>
       <Header />
       <div className={classes.pageContainer}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <Dashboard />
+              </AdminRoute>
+            }
+          />
         </Routes>
       </div>
-    </AuthProvider>
+    </>
   );
 };
 
