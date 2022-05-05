@@ -52,18 +52,20 @@ const Home = () => {
           style={{ height: '55px', width: '100%' }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid container item xs={12}>
         {movies &&
           movies.map((movie) => (
-            <Movie
-              key={movie._id}
-              id={movie._id}
-              img={movie.banner}
-              title={movie.name}
-              theater={movie.theater.name}
-              show_time={movie.show_time}
-              price={movie.price}
-            />
+            <Grid item xs={3}>
+              <Movie
+                key={movie._id}
+                id={movie._id}
+                img={movie.banner}
+                title={movie.name}
+                theater={movie.theater.name}
+                show_time={movie.show_time}
+                price={movie.price}
+              />
+            </Grid>
           ))}
       </Grid>
     </Grid>
