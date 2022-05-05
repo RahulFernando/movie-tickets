@@ -16,7 +16,18 @@ const initialState = {
     data: null,
     error: null,
   },
+  addMovieData: {
+    loading: false,
+    data: null,
+    error: null,
+  },
+  getTheatersData: {
+    loading: false,
+    data: [],
+    error: null,
+  },
   openModal: false,
+  selectedMovie: null,
 };
 
 const authSlice = createSlice({
@@ -76,6 +87,37 @@ const authSlice = createSlice({
     setModal(state, action) {
       state.openModal = action.payload;
     },
+    addMovieStart(state) {
+      state.addMovieData.loading = true;
+    },
+    addMovieSuccess(state, action) {
+      state.addMovieData.loading = false;
+      state.addMovieData.data = action.payload;
+      state.addMovieData.error = null;
+    },
+    addMovieError(state, action) {
+      state.addMovieData.loading = false;
+      state.addMovieData.data = null;
+      state.addMovieData.error = action.payload;
+    },
+    getTheatersStart(state) {
+      state.getTheatersData.loading = true;
+    },
+    getTheatersSuccess(state, action) {
+      state.getTheatersData.loading = false;
+      state.getTheatersData.data = action.payload
+        ? action.payload.theaters
+        : action.payload;
+      state.getTheatersData.error = null;
+    },
+    getTheatersError(state, action) {
+      state.getTheatersData.loading = false;
+      state.getTheatersData.data = [];
+      state.getTheatersData.error = action.payload;
+    },
+    setSelectedMovie(state, action) {
+      state.selectedMovie = action.payload;
+    },
   },
 });
 
@@ -91,6 +133,13 @@ export const {
   addToCartError,
   cartDataReset,
   setModal,
+  addMovieStart,
+  addMovieSuccess,
+  addMovieError,
+  getTheatersStart,
+  getTheatersSuccess,
+  getTheatersError,
+  setSelectedMovie,
 } = actions;
 
 export default reducer;

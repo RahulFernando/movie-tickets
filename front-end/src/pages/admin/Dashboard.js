@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { AddCircle as AddCircleIcon } from '@material-ui/icons';
+import { AddCircle as AddCircleIcon, Edit as EditIcon } from '@material-ui/icons';
 import { makeStyles } from '@mui/styles';
 
 // components
@@ -10,39 +10,29 @@ import Dialog from '../../components/Dialog';
 import MovieForm from '../../components/MovieForm';
 
 // actions
-import { setModal } from '../../slices/movieSlice';
+import { fetchMovies } from '../../actions/movieActions';
+import { setModal, setSelectedMovie } from '../../slices/movieSlice';
 
 const columns = [
-  { field: 'id', headerName: '#', width: 70 },
-  { field: 'movie', headerName: 'Movie', width: 130 },
-  { field: 'theater', headerName: 'Theater', width: 130 },
+  { field: 'name', headerName: 'Movie', width: 130 },
+  { field: 'cast', headerName: 'Cast', width: 200 },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 90,
+    field: 'banner',
+    headerName: 'Banner',
+    width: 180,
+    renderCell: (params) => (
+      <img style={{ width: '50px' }} src={params.value} alt={params.row._id} />
+    ),
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 160,
-    valueGetter: (params) =>
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    field: 'theater',
+    headerName: 'Theater',
+    width: 180,
+    valueGetter: (params) => {
+      return `${params.row.theater[0].name || ''}`;
+    },
   },
-];
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+  { field: 'price', headerName: 'Price', width: 130 },
 ];
 
 const useStyles = makeStyles({
@@ -58,14 +48,39 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const open = useSelector((state) => state.movie.openModal);
+  const rows = useSelector((state) => state.movie.movieData.data.movies);
 
   const openModalHandler = () => {
     dispatch(setModal(true));
   };
 
+  const editModalHandler = (select) => {
+    dispatch(setModal(true));
+    dispatch(setSelectedMovie(select.row));
+  };
+
   const closeModalHandler = () => {
     dispatch(setModal(false));
+    dispatch(setSelectedMovie(null));
   };
+
+  useEffect(() => {
+    dispatch(fetchMovies(''));
+  }, [dispatch]);
+
+  const data_columns = [
+    ...columns,
+    {
+      field: '_',
+      headerName: '',
+      width: 130,
+      renderCell: (params) => (
+        <IconButton onClick={editModalHandler.bind(null, params)}>
+          <EditIcon />
+        </IconButton>
+      ),
+    },
+  ];
 
   return (
     <Grid container>
@@ -76,7 +91,12 @@ const Dashboard = () => {
       </Grid>
       <Grid item xs={12} p={2}>
         <div style={{ height: 400, width: '100%' }}>
-          <DataGrid columns={columns} rows={rows} hideFooter />
+          <DataGrid
+            columns={data_columns}
+            rows={rows || []}
+            getRowId={(row) => row._id}
+            hideFooter
+          />
         </div>
       </Grid>
       <Dialog open={open} onCose={closeModalHandler} title="Movie">
