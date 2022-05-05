@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, IconButton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { AddCircle as AddCircleIcon, Edit as EditIcon } from '@material-ui/icons';
+import { AddCircle as AddCircleIcon, Edit as EditIcon, Delete as DeleteIcon } from '@material-ui/icons';
 import { makeStyles } from '@mui/styles';
 
 // components
@@ -10,8 +10,8 @@ import Dialog from '../../components/Dialog';
 import MovieForm from '../../components/MovieForm';
 
 // actions
-import { fetchMovies } from '../../actions/movieActions';
-import { setModal, setSelectedMovie } from '../../slices/movieSlice';
+import { fetchMovies, deleteMovie } from '../../actions/movieActions';
+import { setModal, setSelectedMovie, deleteMovieReset, updateMovieReset } from '../../slices/movieSlice';
 
 const columns = [
   { field: 'name', headerName: 'Movie', width: 130 },
@@ -49,6 +49,9 @@ const Dashboard = () => {
 
   const open = useSelector((state) => state.movie.openModal);
   const rows = useSelector((state) => state.movie.movieData.data.movies);
+  const addSuccess = useSelector((state) => state.movie.addMovieData.data);
+  const deleteSuccess = useSelector((state) => state.movie.deleteMovieData.data);
+  const updateSuccess = useSelector((state) => state.movie.updateMovieData.data);
 
   const openModalHandler = () => {
     dispatch(setModal(true));
@@ -64,19 +67,56 @@ const Dashboard = () => {
     dispatch(setSelectedMovie(null));
   };
 
+  const deleteMovieHandler = (id) => {
+    dispatch(deleteMovie(id));
+  }
+
   useEffect(() => {
     dispatch(fetchMovies(''));
   }, [dispatch]);
 
+  useEffect(() => {
+    if (deleteSuccess) {
+      dispatch(fetchMovies(''));
+      dispatch(deleteMovieReset());
+    }
+  }, [dispatch, deleteSuccess]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      dispatch(fetchMovies(''));
+      dispatch(updateMovieReset());
+      dispatch(setModal(false));
+      dispatch(setSelectedMovie(null));
+    }
+  }, [dispatch, updateSuccess]);
+
+  useEffect(() => {
+    if (addSuccess) {
+      dispatch(setModal(false));
+      dispatch(fetchMovies(''));
+    }
+  }, [dispatch, addSuccess]);
+
   const data_columns = [
     ...columns,
     {
-      field: '_',
+      field: 'edit',
       headerName: '',
       width: 130,
       renderCell: (params) => (
         <IconButton onClick={editModalHandler.bind(null, params)}>
           <EditIcon />
+        </IconButton>
+      ),
+    },
+    {
+      field: 'delete',
+      headerName: '',
+      width: 130,
+      renderCell: (params) => (
+        <IconButton onClick={deleteMovieHandler.bind(null, params.id)}>
+          <DeleteIcon />
         </IconButton>
       ),
     },

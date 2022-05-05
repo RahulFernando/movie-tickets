@@ -55,9 +55,8 @@ const Home = () => {
       <Grid container item xs={12}>
         {movies &&
           movies.map((movie) => (
-            <Grid item xs={3}>
+            <Grid key={movie._id} item xs={3}>
               <Movie
-                key={movie._id}
                 id={movie._id}
                 img={movie.banner}
                 title={movie.name}
