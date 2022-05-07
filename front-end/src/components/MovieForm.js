@@ -82,7 +82,7 @@ const MovieForm = () => {
     if (movie.theater.trim() === '') {
       return;
     }
-    if (movie.price.trim() === '') {
+    if (movie.price === 0) {
       return;
     }
 
