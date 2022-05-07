@@ -91,6 +91,9 @@ const authSlice = createSlice({
       state.addToCartData.data = null;
       state.addToCartData.error = action.payload;
     },
+    addToCartReset(state, action) {
+      state.addToCartData = initialState.addMovieData;
+    },
     cartDataReset(state) {
       state.cartData = initialState.cartData;
     },
@@ -111,7 +114,7 @@ const authSlice = createSlice({
       state.addMovieData.error = action.payload;
     },
     addMovieReset(state) {
-      state.addMovieData = initialState.addMovieData
+      state.addMovieData = initialState.addMovieData;
     },
     getTheatersStart(state) {
       state.getTheatersData.loading = true;
@@ -176,6 +179,7 @@ export const {
   addToCartStart,
   addToCartSuccess,
   addToCartError,
+  addToCartReset,
   cartDataReset,
   setModal,
   addMovieStart,
@@ -193,7 +197,7 @@ export const {
   deleteMovieStart,
   deleteMovieSuccess,
   deleteMovieError,
-  deleteMovieReset
+  deleteMovieReset,
 } = actions;
 
 export default reducer;

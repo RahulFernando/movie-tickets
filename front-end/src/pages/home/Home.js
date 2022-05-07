@@ -52,7 +52,7 @@ const Home = () => {
           style={{ height: '55px', width: '100%' }}
         />
       </Grid>
-      <Grid container item xs={12}>
+      <Grid container item xs={12} spacing={2}>
         {movies &&
           movies.map((movie) => (
             <Grid key={movie._id} item xs={3}>

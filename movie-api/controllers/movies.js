@@ -136,7 +136,7 @@ export const deleteMovie = async (req, res) => {
  * @param {*} res
  */
 export const getMovies = async (req, res) => {
-  const { theater, search } = req.query;
+  const { search } = req.query;
   try {
     let pipeline = [
       {

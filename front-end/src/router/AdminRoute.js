@@ -8,7 +8,7 @@ const AdminRoute = ({ children }) => {
     return <Navigate to="/" replace />;
   }
 
-  if (user.role !== 'PRODUCTION') {
+  if (user.role !== 'MOVIE_ADMIN') {
     return <Navigate to="/" replace />;
   }
 

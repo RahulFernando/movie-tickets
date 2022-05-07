@@ -1,11 +1,21 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { USER_TYPES } from '../enum/index.js';
 
 const schema = mongoose.Schema({
   user_name: { type: String, required: true },
   email: { type: String, required: true },
   mobile: { type: String, required: true },
-  role: { type: String, required: true, default: 'USER' },
+  role: {
+    type: String,
+    required: true,
+    enum: [
+      USER_TYPES.CUSTOMER,
+      USER_TYPES.MOVIE_ADMIN,
+      USER_TYPES.SYSTEM_ADMIN,
+    ],
+    default: USER_TYPES.CUSTOMER,
+  },
   password: { type: String, required: true },
 });
 

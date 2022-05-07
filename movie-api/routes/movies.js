@@ -3,9 +3,9 @@ import { postMovie, putMovie, getMovies, deleteMovie } from '../controllers/movi
 
 const router = express.Router();
 
-router.post('/movies', postMovie);
-router.put('/movies', putMovie);
-router.delete('/movies/:id', deleteMovie);
-router.get('/movies', getMovies);
+router.post('/movies/add', postMovie);
+router.put('/movies/update', putMovie);
+router.delete('/movies/delete/:id', deleteMovie);
+router.get('/movies/get', getMovies);
 
 export default router;

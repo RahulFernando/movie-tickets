@@ -74,7 +74,7 @@ const LoginForm = () => {
       dispatch(setModal(false));
       onLogin(loginSuccess);
       
-      if (loginSuccess.user.role === 'PRODUCTION') {
+      if (loginSuccess.user.role === 'MOVIE_ADMIN') {
         navigate('/admin');
       }
 
