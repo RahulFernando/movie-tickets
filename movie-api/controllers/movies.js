@@ -3,9 +3,15 @@ import TheaterModal from '../models/theater.js';
 import ResponseHelper from '../helpers/responseHelper.js';
 import { codes, movieConstants } from '../constants/index.js';
 
-const { CREATED, NOT_FOUND, SUCCESS } = codes;
-const { MOVIE_ADD_SUCCESS, MOVIE_ADD_FAILED, MOVIE_LIST_FETCH_SUCCESS } =
-  movieConstants;
+const { CREATED, NOT_FOUND, SUCCESS, UPDATED } = codes;
+const {
+  MOVIE_ADD_SUCCESS,
+  MOVIE_ADD_FAILED,
+  MOVIE_LIST_FETCH_SUCCESS,
+  MOVIE_UPDATE_SUCCESS,
+  MOVIE_NOT_FOUND,
+  MOVIE_DELETION_SUCCESS
+} = movieConstants;
 
 /**
  * Handle new movie request
@@ -13,10 +19,10 @@ const { MOVIE_ADD_SUCCESS, MOVIE_ADD_FAILED, MOVIE_LIST_FETCH_SUCCESS } =
  * @param {*} res
  */
 export const postMovie = async (req, res) => {
-  const { name, show_time, cast, banner, theater } = req.body;
+  const { name, show_time, cast, banner, theater, price } = req.body;
 
   try {
-    const obj = new MovieModal({ name, show_time, cast, banner, theater });
+    const obj = new MovieModal({ name, show_time, cast, banner, theater, price });
 
     const movie = await obj.save();
 
@@ -48,8 +54,89 @@ export const postMovie = async (req, res) => {
   }
 };
 
+/**
+ * Handle movie update
+ * @param {*} req
+ * @param {*} res
+ */
+export const putMovie = async (req, res) => {
+  const { id, name, show_time, cast, banner, theater, price } = req.body;
+
+  try {
+    const obj = await MovieModal.findOneAndUpdate(
+      { _id: id },
+      {
+        name,
+        show_time,
+        cast,
+        banner,
+        theater,
+        price
+      }
+    );
+
+    if (!obj) {
+      return ResponseHelper.response(
+        res,
+        false,
+        404,
+        NOT_FOUND,
+        MOVIE_NOT_FOUND,
+        {}
+      );
+    }
+
+    return ResponseHelper.response(
+      res,
+      true,
+      200,
+      UPDATED,
+      MOVIE_UPDATE_SUCCESS,
+      obj._doc
+    );
+  } catch (error) {}
+};
+
+/**
+ * Handle movie deletion
+ * @param {*} req
+ * @param {*} res
+ */
+export const deleteMovie = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const obj = await MovieModal.findOneAndDelete({ _id: id });
+
+    if (!obj) {
+      return ResponseHelper.response(
+        res,
+        false,
+        404,
+        NOT_FOUND,
+        MOVIE_NOT_FOUND,
+        {}
+      );
+    }
+
+    return ResponseHelper.response(
+      res,
+      true,
+      200,
+      SUCCESS,
+      MOVIE_DELETION_SUCCESS,
+      obj._doc
+    );
+  } catch (error) {}
+};
+
+/**
+ * Handle movie list fetch
+ * @param {*} req
+ * @param {*} res
+ */
 export const getMovies = async (req, res) => {
-  const { theater, search } = req.query;
+  const { search } = req.query;
   try {
     let pipeline = [
       {

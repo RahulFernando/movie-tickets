@@ -7,8 +7,7 @@ import TextField from './TextField';
 import Button from './Button';
 
 // actions
-import { fetchTheaters, addMovie } from '../actions/movieActions';
-import { setSelectedMovie } from '../slices/movieSlice';
+import { fetchTheaters, addMovie, updateMovie } from '../actions/movieActions';
 
 const movieForm = [
   {
@@ -84,6 +83,12 @@ const MovieForm = () => {
       return;
     }
     if (movie.price.trim() === '') {
+      return;
+    }
+
+
+    if (selected !== null) {
+      dispatch(updateMovie({ id: selected._id, ...movie}));
       return;
     }
 

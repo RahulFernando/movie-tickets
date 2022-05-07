@@ -10,7 +10,13 @@ import {
   addMovieError,
   getTheatersStart,
   getTheatersSuccess,
-  getTheatersError
+  getTheatersError,
+  updateMovieStart,
+  updateMovieSuccess,
+  updateMovieError,
+  deleteMovieStart,
+  deleteMovieSuccess,
+  deleteMovieError
 } from '../slices/movieSlice';
 
 import service from '../services/movieService';
@@ -65,6 +71,41 @@ export const addMovie = (data) => {
       }
     } catch (error) {
       dispatch(addMovieError(error.message));
+    }
+  };
+};
+
+export const updateMovie = (data) => {
+  return async (dispatch) => {
+    dispatch(updateMovieStart());
+    try {
+      const response = await service.putMovie(data);
+
+      if (response.status === 200) {
+        dispatch(updateMovieSuccess(response.data.body));
+      } else {
+        dispatch(updateMovieError(response.data.message));
+      }
+    } catch (error) {
+      dispatch(updateMovieError(error.message));
+    }
+  };
+};
+
+export const deleteMovie = (data) => {
+  return async (dispatch) => {
+    dispatch(deleteMovieStart());
+
+    try {
+      const response = await service.deleteMovie(data);
+
+      if (response.status === 200) {
+        dispatch(deleteMovieSuccess(response.data.body));
+      } else {
+        dispatch(deleteMovieError(response.data.message));
+      }
+    } catch (error) {
+      dispatch(deleteMovieError(error.message));
     }
   };
 };

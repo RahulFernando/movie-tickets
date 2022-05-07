@@ -8,7 +8,7 @@ import Button from './Button';
 
 // actions
 import { addToCart } from '../actions/movieActions';
-import { cartDataReset } from '../slices/movieSlice';
+import { cartDataReset, addToCartReset } from '../slices/movieSlice';
 import Payment from './Payment';
 
 const Cart = () => {
@@ -33,6 +33,8 @@ const Cart = () => {
   useEffect(() => {
     if (addToCartSuccess) {
       dispatch(cartDataReset());
+      dispatch(addToCartReset());
+      setIsPayment(false);
     }
   }, [addToCartSuccess, dispatch]);
 
@@ -54,10 +56,12 @@ const Cart = () => {
           <Typography>Total Rs {cartData.total_price}</Typography>
         </Grid>
         <Grid item xs={6}>
-          <Button
-            label={isPayment ? 'Confirm' : 'Pay'}
-            onClick={confirmHandler}
-          />
+          {cartData.movies.length > 0 && (
+            <Button
+              label={isPayment ? 'Confirm' : 'Pay'}
+              onClick={confirmHandler}
+            />
+          )}
         </Grid>
       </Grid>
     </form>

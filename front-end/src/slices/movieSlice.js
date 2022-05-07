@@ -26,6 +26,16 @@ const initialState = {
     data: [],
     error: null,
   },
+  updateMovieData: {
+    loading: false,
+    data: null,
+    error: null,
+  },
+  deleteMovieData: {
+    loading: false,
+    data: null,
+    error: null,
+  },
   openModal: false,
   selectedMovie: null,
 };
@@ -64,7 +74,7 @@ const authSlice = createSlice({
       } else {
         // otherwise
         state.cartData.movies.push({ movie, no_of_tickets, title, img });
-        state.cartData.total_price = no_of_tickets * price;
+        state.cartData.total_price += no_of_tickets * price;
         state.cartData.user = user;
       }
     },
@@ -80,6 +90,9 @@ const authSlice = createSlice({
       state.addToCartData.loading = false;
       state.addToCartData.data = null;
       state.addToCartData.error = action.payload;
+    },
+    addToCartReset(state, action) {
+      state.addToCartData = initialState.addMovieData;
     },
     cartDataReset(state) {
       state.cartData = initialState.cartData;
@@ -100,6 +113,9 @@ const authSlice = createSlice({
       state.addMovieData.data = null;
       state.addMovieData.error = action.payload;
     },
+    addMovieReset(state) {
+      state.addMovieData = initialState.addMovieData;
+    },
     getTheatersStart(state) {
       state.getTheatersData.loading = true;
     },
@@ -118,6 +134,38 @@ const authSlice = createSlice({
     setSelectedMovie(state, action) {
       state.selectedMovie = action.payload;
     },
+    updateMovieStart(state) {
+      state.updateMovieData.loading = true;
+    },
+    updateMovieSuccess(state, action) {
+      state.updateMovieData.loading = false;
+      state.updateMovieData.data = action.payload;
+      state.updateMovieData.error = null;
+    },
+    updateMovieError(state, action) {
+      state.updateMovieData.loading = false;
+      state.updateMovieData.data = null;
+      state.updateMovieData.error = action.payload;
+    },
+    updateMovieReset(state) {
+      state.updateMovieData = initialState.updateMovieData;
+    },
+    deleteMovieStart(state) {
+      state.deleteMovieData.loading = true;
+    },
+    deleteMovieSuccess(state, action) {
+      state.deleteMovieData.loading = false;
+      state.deleteMovieData.data = action.payload;
+      state.deleteMovieData.error = null;
+    },
+    deleteMovieError(state, action) {
+      state.deleteMovieData.loading = false;
+      state.deleteMovieData.data = null;
+      state.deleteMovieData.error = action.payload;
+    },
+    deleteMovieReset(state) {
+      state.deleteMovieData = initialState.deleteMovieData;
+    },
   },
 });
 
@@ -131,15 +179,25 @@ export const {
   addToCartStart,
   addToCartSuccess,
   addToCartError,
+  addToCartReset,
   cartDataReset,
   setModal,
   addMovieStart,
   addMovieSuccess,
   addMovieError,
+  addMovieReset,
   getTheatersStart,
   getTheatersSuccess,
   getTheatersError,
   setSelectedMovie,
+  updateMovieStart,
+  updateMovieSuccess,
+  updateMovieError,
+  updateMovieReset,
+  deleteMovieStart,
+  deleteMovieSuccess,
+  deleteMovieError,
+  deleteMovieReset,
 } = actions;
 
 export default reducer;

@@ -46,14 +46,14 @@ const Movie = ({ id, img, title, theater, show_time, price }) => {
   };
 
   const addToCartHandler = () => {
-    getUserId(token).then((id) => {
+    getUserId(token).then((userId) => {
       const obj = {
         movie: id,
         title,
         img,
         no_of_tickets: noOfTickets,
         price: price,
-        user: id,
+        user: userId,
       };
 
       dispatch(setCartData(obj));

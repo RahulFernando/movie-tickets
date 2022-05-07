@@ -97,7 +97,7 @@ const Header = () => {
               Movie Tickets
             </Typography>
             <Box className={classes.leftMenu} />
-            {token && user.role !== 'PRODUCTION' && (
+            {token && user.role !== 'MOVIE_ADMIN' && (
               <Box className={classes.rightMenu}>
                 <IconButton onClick={cartOpenHandler}>
                   <Badge badgeContent={movies.length} className={classes.badge}>
