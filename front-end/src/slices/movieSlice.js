@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   movieData: {
@@ -36,12 +36,17 @@ const initialState = {
     data: null,
     error: null,
   },
+  getTicketsData: {
+    loading: false,
+    data: null,
+    error: null,
+  },
   openModal: false,
   selectedMovie: null,
 };
 
 const authSlice = createSlice({
-  name: 'movie',
+  name: "movie",
   initialState,
   reducers: {
     fetchMoviesStart(state) {
@@ -166,6 +171,19 @@ const authSlice = createSlice({
     deleteMovieReset(state) {
       state.deleteMovieData = initialState.deleteMovieData;
     },
+    getTicketStart(state) {
+      state.getTicketsData.loading = true;
+    },
+    getTicketSuccess(state, action) {
+      state.getTicketsData.loading = false;
+      state.getTicketsData.data = action.payload;
+      state.getTicketsData.error = null;
+    },
+    getTicketError(state, action) {
+      state.getTicketsData.loading = false;
+      state.getTicketsData.data = null;
+      state.getTicketsData.error = action.payload;
+    },
   },
 });
 
@@ -198,6 +216,9 @@ export const {
   deleteMovieSuccess,
   deleteMovieError,
   deleteMovieReset,
+  getTicketStart,
+  getTicketSuccess,
+  getTicketError,
 } = actions;
 
 export default reducer;
