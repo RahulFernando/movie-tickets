@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   loginData: {
@@ -8,10 +8,11 @@ const initialState = {
   },
   openModal: false,
   openCart: false,
+  openPurchased: false,
 };
 
 const authSlice = createSlice({
-  name: 'authentication',
+  name: "authentication",
   initialState,
   reducers: {
     setModal(state, action) {
@@ -33,11 +34,21 @@ const authSlice = createSlice({
       state.loginData.data = null;
       state.loginData.error = action.payload;
     },
+    setPurchased(state, action) {
+      state.openPurchased = action.payload;
+    },
   },
 });
 
 const { actions, reducer } = authSlice;
 
-export const { setModal, setCart, loginStart, loginSuccess, loginError } = actions;
+export const {
+  setModal,
+  setCart,
+  loginStart,
+  loginSuccess,
+  loginError,
+  setPurchased,
+} = actions;
 
 export default reducer;

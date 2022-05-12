@@ -16,7 +16,10 @@ import {
   updateMovieError,
   deleteMovieStart,
   deleteMovieSuccess,
-  deleteMovieError
+  deleteMovieError,
+  getTicketStart,
+  getTicketSuccess,
+  getTicketError
 } from '../slices/movieSlice';
 
 import service from '../services/movieService';
@@ -124,6 +127,24 @@ export const fetchTheaters = () => {
       }
     } catch (error) {
       dispatch(getTheatersError(error.message));
+    }
+  };
+};
+
+export const fetchTickets = () => {
+  return async (dispatch) => {
+    dispatch(getTicketStart());
+
+    try {
+      const response = await service.fetchTickets();
+
+      if (response.status === 200) {
+        dispatch(getTicketSuccess(response.data.body));
+      } else {
+        dispatch(getTicketError(response.data.message));
+      }
+    } catch (error) {
+      dispatch(getTicketError(error.message));
     }
   };
 };

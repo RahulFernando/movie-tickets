@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext } from "react";
 import {
   IconButton,
   Box,
@@ -7,45 +7,46 @@ import {
   AppBar,
   Container,
   Badge,
-} from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@mui/styles';
-import { ShoppingCart } from '@material-ui/icons';
+} from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { makeStyles } from "@mui/styles";
+import { ShoppingCart, LocalMovies } from "@material-ui/icons";
 
 // components
-import LoginForm from './LoginForm';
-import Cart from './Cart';
-import Dialog from './Dialog';
+import LoginForm from "./LoginForm";
+import Cart from "./Cart";
+import Purchased from "./Purchased";
+import Dialog from "./Dialog";
 
 // reducers
-import { setModal, setCart } from '../slices/authSlice';
+import { setModal, setCart, setPurchased } from "../slices/authSlice";
 
 // context
-import AuthContext from '../store/auth-context';
+import AuthContext from "../store/auth-context";
 
 const useStyle = makeStyles({
   logo: {
     marginLeft: 5,
     display: {
-      xs: 'none',
-      md: 'flex',
+      xs: "none",
+      md: "flex",
     },
-    color: '#ffff',
+    color: "#ffff",
   },
   leftMenu: {
     flexGrow: 1,
-    display: { xs: 'flex', md: 'none' },
+    display: { xs: "flex", md: "none" },
   },
   rightMenu: {
     flexGrow: 0,
   },
   cartIcon: {
-    color: 'white',
+    color: "white",
   },
   badge: {
-    '& .MuiBadge-badge': {
-      color: 'white',
-      backgroundColor: 'black',
+    "& .MuiBadge-badge": {
+      color: "white",
+      backgroundColor: "black",
     },
   },
 });
@@ -57,6 +58,9 @@ const Header = () => {
 
   const openCart = useSelector((state) => state.authentication.openCart);
   const openLogin = useSelector((state) => state.authentication.openModal);
+  const openPurchased = useSelector(
+    (state) => state.authentication.openPurchased
+  );
   const movies = useSelector((state) => state.movie.cartData.movies);
   const cartData = useSelector((state) => state.movie.cartData);
 
@@ -78,6 +82,14 @@ const Header = () => {
     dispatch(setCart(false));
   };
 
+  const purchasedOpenHandler = () => {
+    dispatch(setPurchased(true));
+  };
+
+  const purchasedCloseHandler = () => {
+    dispatch(setPurchased(false));
+  };
+
   const logoutClickHandler = () => {
     onLogout();
     window.location.reload();
@@ -97,12 +109,19 @@ const Header = () => {
               Movie Tickets
             </Typography>
             <Box className={classes.leftMenu} />
-            {token && user.role !== 'MOVIE_ADMIN' && (
+            {token && user.role !== "MOVIE_ADMIN" && (
               <Box className={classes.rightMenu}>
                 <IconButton onClick={cartOpenHandler}>
                   <Badge badgeContent={movies.length} className={classes.badge}>
                     <ShoppingCart className={classes.cartIcon} />
                   </Badge>
+                </IconButton>
+              </Box>
+            )}
+            {token && user.role !== "MOVIE_ADMIN" && (
+              <Box className={classes.rightMenu}>
+                <IconButton onClick={purchasedOpenHandler}>
+                  <LocalMovies className={classes.cartIcon} />
                 </IconButton>
               </Box>
             )}
@@ -132,6 +151,13 @@ const Header = () => {
       </Dialog>
       <Dialog title="You Cart" open={openCart} onCose={cartCloseHandler}>
         <Cart />
+      </Dialog>
+      <Dialog
+        title="Tickets"
+        open={openPurchased}
+        onCose={purchasedCloseHandler}
+      >
+        <Purchased />
       </Dialog>
     </>
   );
